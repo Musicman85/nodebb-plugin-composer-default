@@ -37,6 +37,10 @@ define('composer/resize', ['autosize'], function(autosize) {
 
 		if (env === 'sm' || env === 'xs' || window.innerHeight < 480) {
 			$html.addClass('composing mobile');
+			postContainer.css({
+					'left': 0
+				});
+
 			autosize(postContainer.find('textarea')[0]);
 			percentage = 1;
 		} else {

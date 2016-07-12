@@ -1,5 +1,7 @@
 <div component="composer" class="composer<!-- IF resizable --> resizable<!-- ENDIF resizable -->">
 
+	<div  class="pg-composer-header color-forum">x _ + </div>
+
 	<div class="composer-container">
 		<nav class="navbar navbar-fixed-top mobile-navbar visible-xs visible-sm">
 			<div class="pull-left">
