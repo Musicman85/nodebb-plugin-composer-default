@@ -12,7 +12,8 @@
 		"./static/less/composer.less"
 	],
 	"scripts": [
-		"./static/lib/client.js"
+		"./static/lib/client.js",
+		"./static/lib/pg-minimize.js"
 	],
 	"modules": {
 		"composer.js": "./static/lib/composer.js",

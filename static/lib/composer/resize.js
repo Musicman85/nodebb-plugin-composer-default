@@ -37,9 +37,9 @@ define('composer/resize', ['autosize'], function(autosize) {
 
 		if (env === 'sm' || env === 'xs' || window.innerHeight < 480) {
 			$html.addClass('composing mobile');
-			postContainer.css({
+			/*postContainer.css({
 					'left': 0
-				});
+				});*/
 
 			autosize(postContainer.find('textarea')[0]);
 			percentage = 1;
@@ -74,11 +74,11 @@ define('composer/resize', ['autosize'], function(autosize) {
 
 		// Add some extra space at the bottom of the body so that the user can still scroll to the last post w/ composer open
 		// thanks but don't do it on mobile
-		if (env === 'md' || env === 'lg') {
+		/*if (env === 'md' || env === 'lg') {
 			$body.css({ 'margin-bottom': postContainer.outerHeight() });
-		}
+		}*/
 
-		resizeWritePreview(postContainer);
+		//resizeWritePreview(postContainer);
 	}
 
 	var resizeIt = doResize;
