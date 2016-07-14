@@ -7,11 +7,13 @@
 .define-if-not-set();
 @topbarHeight: 50px;
 html.composing {
+    padding: auto;
     &.mobile {
         body {
             overflow: hidden;
         }
         .composer {
+            width: 100%;
             .composer-container {
                 display: flex;
                 flex-direction: column;
@@ -89,7 +91,7 @@ html.composing {
         }
     }
     body {
-        height: 0px !important;
+        /*  height: 0px !important;*/
     }
     .composer {
         padding: 0;
@@ -150,56 +152,56 @@ html.composing {
                 text-overflow: ellipsis;
             }
         }
-    }
-    .col-xs-1,
-    .col-sm-1,
-    .col-md-1,
-    .col-lg-1,
-    .col-xs-2,
-    .col-sm-2,
-    .col-md-2,
-    .col-lg-2,
-    .col-xs-3,
-    .col-sm-3,
-    .col-md-3,
-    .col-lg-3,
-    .col-xs-4,
-    .col-sm-4,
-    .col-md-4,
-    .col-lg-4,
-    .col-xs-5,
-    .col-sm-5,
-    .col-md-5,
-    .col-lg-5,
-    .col-xs-6,
-    .col-sm-6,
-    .col-md-6,
-    .col-lg-6,
-    .col-xs-7,
-    .col-sm-7,
-    .col-md-7,
-    .col-lg-7,
-    .col-xs-8,
-    .col-sm-8,
-    .col-md-8,
-    .col-lg-8,
-    .col-xs-9,
-    .col-sm-9,
-    .col-md-9,
-    .col-lg-9,
-    .col-xs-10,
-    .col-sm-10,
-    .col-md-10,
-    .col-lg-10,
-    .col-xs-11,
-    .col-sm-11,
-    .col-md-11,
-    .col-lg-11,
-    .col-xs-12,
-    .col-sm-12,
-    .col-md-12,
-    .col-lg-12 {
-        padding: 0;
+        .col-xs-1,
+        .col-sm-1,
+        .col-md-1,
+        .col-lg-1,
+        .col-xs-2,
+        .col-sm-2,
+        .col-md-2,
+        .col-lg-2,
+        .col-xs-3,
+        .col-sm-3,
+        .col-md-3,
+        .col-lg-3,
+        .col-xs-4,
+        .col-sm-4,
+        .col-md-4,
+        .col-lg-4,
+        .col-xs-5,
+        .col-sm-5,
+        .col-md-5,
+        .col-lg-5,
+        .col-xs-6,
+        .col-sm-6,
+        .col-md-6,
+        .col-lg-6,
+        .col-xs-7,
+        .col-sm-7,
+        .col-md-7,
+        .col-lg-7,
+        .col-xs-8,
+        .col-sm-8,
+        .col-md-8,
+        .col-lg-8,
+        .col-xs-9,
+        .col-sm-9,
+        .col-md-9,
+        .col-lg-9,
+        .col-xs-10,
+        .col-sm-10,
+        .col-md-10,
+        .col-lg-10,
+        .col-xs-11,
+        .col-sm-11,
+        .col-md-11,
+        .col-lg-11,
+        .col-xs-12,
+        .col-sm-12,
+        .col-md-12,
+        .col-lg-12 {
+            padding: 0;
+        }
     }
 }
 
@@ -210,13 +212,14 @@ html.composing {
         bottom: 0;
         /*top: 0;*/
         right: 16px;
-        .box-shadow(-3px -3px 10px rgba(0, 0, 0, 0.3));
-        border-top-left-radius: 7.5px;
+        box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.3), 0px 9px 18px rgba(0, 0, 0, 0.6);
+        /* box-shadow:0 0 8px rgba(0,0,0,.18),0 8px 16px rgba(0,0,0,.36);*/
+        /*border-top-left-radius: 7.5px;
         border-top-right-radius: 7.5px;
-        overflow: hidden;
+        overflow: hidden;*/
         .write,
         .preview {
-            min-height: 0;
+            /* min-height: 0;*/
         }
     }
     @media(max-width: @screen-md) {
@@ -239,7 +242,7 @@ html.composing {
     }
     @media(min-width: @screen-md) {
         .composer-container {
-            min-width: 960px;
+            /*  min-width: 960px;*/
         }
     }
     .title-container {
@@ -267,11 +270,13 @@ html.composing {
     }
     .tag-row {
         margin: 0px;
+        bottom: 40px;
     }
     .tags-container {
         .bootstrap-tagsinput {
             width: 100%;
             margin-bottom: 0px;
+            margin-top: 16px;
             border: 0;
             box-shadow: none;
             input {
@@ -415,7 +420,7 @@ html.composing {
                 content: @fa-var-chevron-down;
             }
         }
-        box-shadow: none;
+        /* box-shadow: none;*/
     }
     .imagedrop {
         position: absolute;
@@ -465,6 +470,10 @@ html.composing {
     height: 40px;
     background-color: #424242;
     padding-left: 16px;
+    padding-right: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
     font-weight: lighter;
@@ -472,7 +481,7 @@ html.composing {
 
 .pg-composer-header-btn {
     background: none;
-    float: left;
+    float: right;
     border: none;
     height: 40px;
     line-height: 1;
@@ -500,8 +509,18 @@ html.composing {
 
 .composer {
     top: auto!important;
-    height: 500px;
-    width: 70%;
+    max-height: 540px;
+    height: 100%;
+    min-height: 40px;
+    width: 768px;
+    border-top-left-radius: 7.5px;
+    border-top-right-radius: 7.5px;
+    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .composer.minimized {
@@ -510,6 +529,10 @@ html.composing {
     top: auto;
     right: 0;
     left: auto;
+}
+
+html.composer.mobile .composer.minimized {
+    height: 50px;
 }
 
 .composer .pg-minimize i {
@@ -538,4 +561,76 @@ html.composing {
 
 .composer.minimized .pg-composer-desc {
     display: block;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.composer.minimized .composer-container {
+    display: none;
+}
+.category-name-container {
+    display: none;
+}
+    .pg-mobile-send{
+        display: none;
+}
+html.composing.mobile {
+    .composer {
+        height: 100%;
+        max-height: 3000px !important;
+        border-radius: 0 !important;
+        min-width: 320px;
+    }
+    .composer-container{
+        padding-top: 0;
+        height: calc(~"100% - 80px");
+    }
+    .pg-composer-header {
+        height: 50px;
+        padding-left: 12px;
+        padding-right: 12px;
+
+    }
+    .pg-composer-desc {
+        /* height: 50px;
+        line-height: 50px;*/
+        display: none;
+    }
+    .pg-composer-header-btn {
+        height: 50px;
+        float: left;
+        padding-left: 10px;
+        padding-right: 10px;
+        i {
+            font-size: 24px;
+        }
+    }
+    .composer.minimized {
+        height: 50px;
+        width: 120px;
+        min-width: 120px;
+        border-top-left-radius: 7.5px !important;
+        border-top-right-radius: 7.5px !important;
+    }
+    #pg-category {
+        display: none;
+    }
+    .category-name-container {
+        display: block;
+        float: left;
+        line-height: 50px;
+        margin-left: 12px;
+        padding-right: 16px;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+    }
+    .composer.minimized .category-name-container {
+        display: none;
+    }
+    .pg-composer-header-btn.resizer {
+        display: none;
+    }
+    .pg-mobile-send{
+        display: block;
+    }
 }

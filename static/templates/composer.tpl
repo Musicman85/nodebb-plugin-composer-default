@@ -9,26 +9,34 @@
                 <li><i class="material-icons md-18 line-h-sm">arrow_drop_down</i></li>
             </ul>
         </button>
-                 <!-- IF isTopicOrMain -->
-                 <div id="pg-category" class="pg-composer-desc">[[topic:composer.title_placeholder]]</div>
-                <!-- ELSE -->
-                <div class="pg-composer-desc">[[topic:composer.replying_to, "{title}"]]</div>
-                <!-- ENDIF isTopicOrMain -->
+        <!-- IF isTopicOrMain -->
+        <div id="pg-category" class="pg-composer-desc">[[topic:composer.title_placeholder]]</div>
+        <!-- ELSE -->
+        <div class="pg-composer-desc">[[topic:composer.replying_to, "{title}"]]</div>
+        <!-- ENDIF isTopicOrMain -->
+        <!-- IF isTopic -->
+        <div class="category-name-container">
+            <span class="category-name"></span> <i class="fa fa-sort"></i>
+        </div>
+        <!-- ENDIF isTopic -->
+        <div class="pg-mobile-send pull-right">
+            <button class="pg-composer-header-btn composer-submit" data-action="post" tabindex="-1"><i class="material-icons md-24">send</i></button>
+        </div>
     </div>
     <div class="composer-container">
-        <nav class="navbar navbar-fixed-top mobile-navbar visible-xs visible-sm">
+        <!--<nav class="navbar navbar-fixed-top mobile-navbar visible-xs visible-sm">
             <div class="pull-left">
                 <button class="btn btn-sm btn-primary composer-discard" data-action="discard" tabindex="-1"><i class="fa fa-times"></i></button>
-            </div>
-            <!-- IF isTopic -->
-            <div class="category-name-container">
+            </div>-->
+        <!-- IF isTopic -->
+        <!-- <div class="category-name-container">
                 <span class="category-name"></span> <i class="fa fa-sort"></i>
-            </div>
-            <!-- ENDIF isTopic -->
-            <div class="pull-right">
+            </div>-->
+        <!-- ENDIF isTopic -->
+        <!--<div class="pull-right">
                 <button class="btn btn-sm btn-primary composer-submit" data-action="post" tabindex="-1"><i class="fa fa-chevron-right"></i></button>
             </div>
-        </nav>
+        </nav>-->
         <div class="row title-container">
             <!-- IF showHandleInput -->
             <div class="col-sm-3 col-md-12">
@@ -108,7 +116,7 @@
                     </form>
                 </ul>
                 <div class="btn-group pull-right action-bar hidden-sm hidden-xs">
-                  <!--  <button class="btn btn-default composer-discard" data-action="discard" tabindex="-1"><i class="fa fa-times"></i> [[topic:composer.discard]]</button>-->
+                    <!--  <button class="btn btn-default composer-discard" data-action="discard" tabindex="-1"><i class="fa fa-times"></i> [[topic:composer.discard]]</button>-->
                     <button class="btn btn-primary composer-submit" data-action="post" tabindex="6"><i class="fa fa-check"></i> [[topic:composer.submit]]</button>
                 </div>
             </div>

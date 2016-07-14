@@ -35,7 +35,9 @@ define('composer/resize', ['autosize'], function(autosize) {
 
 		// done, just use `top` instead of `translate`
 
-		if (env === 'sm' || env === 'xs' || window.innerHeight < 480) {
+		//if (env === 'sm' || env === 'xs' || window.innerHeight < 480) {
+		if (env === 'sm' || env === 'xs' || window.innerHeight < 10) {
+
 			$html.addClass('composing mobile');
 			/*postContainer.css({
 					'left': 0
