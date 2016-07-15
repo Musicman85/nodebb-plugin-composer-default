@@ -450,6 +450,8 @@ define('composer', [
                 activate(post_uuid);
 
                 postContainer.on('click', function() {
+
+
                     if (!taskbar.isActive(post_uuid)) {
                         taskbar.updateActive(post_uuid);
                     }
@@ -468,7 +470,10 @@ define('composer', [
 
                     $('.category-name-container').on('click', function() {
                         $('.category-selector').toggleClass('open');
+
                     });
+
+
                 }
 
                 $(window).trigger('action:composer.loaded', {
@@ -479,56 +484,130 @@ define('composer', [
                 resize.reposition(postContainer);
                 focusElements(postContainer);
 
-                //BEGIN pg-minimize
+                //BEGIN pg-mod
+
+
+
                 $('.pg-minimize').each(function() {
+
                     if (!$(this).attr("data-uuid")) {
                         $(this).attr("data-uuid", post_uuid);
 
                         $(this).on('click', function() {
 
                             var actualComposeWindow = $('#cmp-uuid-' + $(this).attr('data-uuid'));
-
-                            var i = 0;
-
-                            actualComposeWindow.toggleClass('minimized');
-
-                            var composeCount = $('.composer').length;
                             var env = utils.findBootstrapEnvironment();
+                            var extraScrollHeight = 540;
 
-                            $('.composer').each(function() {
 
-                                if (env === 'sm' || env === 'xs') {
-                                    if (composeCount < 2) {
-                                        $(this).css({
-                                            'width': '300px',
-                                            'right': '10px'
-                                        });
-                                    } 
-                                    else {
-                                    	var composerWidth = (window.innerWidth - 30)/ composeCount;
+                            //The window could have fullscreen if minimize/expand button is clicked
+                            if (!actualComposeWindow.hasClass('minimized') && actualComposeWindow.hasClass('fullscreen')) {
+                                actualComposeWindow.toggleClass('fullscreen');
+                            }
 
-                                        $(this).css({
-                                        	'width': composerWidth + 'px', 
-                                        	'right': i * (composerWidth + 10) + 10 + 'px'
-                                        });
+                            if (!$('.composer').hasClass('fullscreen') && $("#search-overlay").hasClass('active')) {
+                                $("#search-overlay").toggleClass("active");
+                            }
 
+                            if (actualComposeWindow.hasClass('minimized')) {
+
+                                //the composer is closed when clicked
+                                if (env === 'md' || env === 'lg') {
+                                    //When desktop, set extra scroll to be able to scroll the complete page when composing
+                                    $('body').css({
+                                        'margin-bottom': extraScrollHeight
+                                    });
+
+                                    //align actualcompose window to the left when open if it doesn't fit in window
+                                    var widthOpen = 768;
+
+                                    var left = 'auto';
+                                    if (actualComposeWindow.position().left + actualComposeWindow.width() < widthOpen) {
+                                        left = 0;
                                     }
 
+                                    actualComposeWindow.css({
+                                        'width': widthOpen + 'px',
+                                        'left': left,
+                                        'height': '100%',
+                                        'top': 'auto',
+                                    });
+
                                 } else {
-                                    $(this).css('right', i * 610 / composeCount + 16 + 'px');
-
+                                    //mobile
+                                    actualComposeWindow.css({
+                                        'width': '100%',
+                                        'height': '100%',
+                                        'left': 0,
+                                        'right': 0,
+                                        'top': 'auto'
+                                    });
                                 }
-                                i++;
-                            });
 
 
+                            } else {
+                                // the composer is open when clicked
+                                //Reset the body scroll margin'
 
+                                $('body').css({
+                                    'margin-bottom': 0
+                                });
+                                var composeCount = $('.composer').length;
+                                var env = utils.findBootstrapEnvironment();
+
+                                var composerMargin = 16;
+                                var composerMinWidth = 300;
+                                var composerMaxWidth = 350;
+                                var minimizedHeight = 40;
+
+                                if (env === 'sm' || env === 'xs') {
+                                    composerMargin = 10;
+                                    composerMinWidth = 120;
+                                    composerMaxWidth = 300;
+                                    minimizedHeight = 50;
+                                }
+
+                                var i = 0;
+
+                                $('.composer').each(function() {
+                                    //Place all composer windows properly
+                                    var composerDimensions = getComposerDimensions(composeCount, composerMargin, composerMinWidth, composerMaxWidth, i);
+
+                                    $(this).css({
+                                        'width': composerDimensions.width + 'px',
+                                        'right': composerDimensions.right + 'px',
+                                        'left': 'auto',
+                                        'height': minimizedHeight,
+                                        'top': 'auto'
+                                    });
+
+                                    i++;
+                                });
+
+                            }
+
+                            actualComposeWindow.toggleClass('minimized');
                         });
 
                     }
                 });
-                //change depth of composer elements when clinking
 
+
+                $('.pg-fullscreen').each(function() {
+
+                    //uggly way to make a check that only one click listnener is set
+                    if (!$(this).attr("fullscreen-tag")) {
+                        $(this).attr("fullscreen-tag", 'yes');
+
+                        $(this).on('click', function() {
+                            var actualComposeWindow = $(this).parent().parent();
+                            fullScreenToggle(actualComposeWindow);
+                        });
+
+                    }
+                });
+
+                //change depth of composer elements when clinking
                 $('.composer').click(function() {
 
                     var zDiff = 0;
@@ -551,29 +630,91 @@ define('composer', [
                         zDiff++;
                     });
                     $(this).css('z-index', '10000');
-                })
+
+                });
 
 
-                /* $('.pg-minimize').on('click', function() {
-
-                     var actualComposeWindow = $('#cmp-uuid-' + $(this).attr('data-uuid'));
-
-                     var i = 0;
-
-                     actualComposeWindow.toggleClass('minimized');
-
-                     $('.composer').each(function() {
-                         $(this).css('right', i*310 + 'px');
-                         i++;
-                     });
-
-                 });*/
-                //END pg-minimize
+                //END pg-mod
 
             });
 
         }
     }
+
+    //BEGIN PG-functions
+    function getComposerDimensions(composeCount, composerMargin, composerMinWidth, composerMaxWidth, i) {
+        var composerWidth = (window.innerWidth - composerMargin - composeCount * composerMargin) / composeCount;
+        var paddingWhenNotFit = 0;
+
+        if (composerWidth < composerMinWidth) {
+            composerWidth = composerMinWidth;
+        }
+        if (composerWidth > composerMaxWidth) {
+            composerWidth = composerMaxWidth;
+        }
+
+        var totalWidth = composerMargin + (composerWidth + composerMargin) * composeCount;
+
+        if (totalWidth > window.innerWidth) {
+            paddingWhenNotFit = (totalWidth - window.innerWidth) / (composeCount - 1);
+        }
+
+        var right = composerMargin + i * (composerWidth + composerMargin) - i * paddingWhenNotFit;
+
+
+
+        return {
+            'right': right,
+            'width': composerWidth
+        };
+    }
+
+    function fullScreenToggle(actualComposeWindow) {
+        //The window could not be minimized when fullscreen button is clicked
+        if (actualComposeWindow.hasClass('minimized') && !actualComposeWindow.hasClass('fullscreen')) {
+            //Entering full screen from minimized
+            actualComposeWindow.toggleClass('minimized');
+
+        }
+
+        if (actualComposeWindow.hasClass('fullscreen')) {
+            //Leaving full screen
+            var left = 'auto';
+            var minWidth = 350;
+            var widthOpen = 768;
+
+            var padding = 16;
+
+            var composeCount = $('.composer').length;
+
+            var calculatedRightPos = composeCount * (minWidth + padding);
+
+            if (calculatedRightPos + widthOpen > window.innerWidth) {
+                left = 0;
+            }
+
+            actualComposeWindow.css({
+                'height': '100%',
+                'width': '768px',
+                'left': left,
+            });
+
+        } else {
+            //entering full screen
+        }
+
+
+        $("#search-overlay").toggleClass("active");
+
+        actualComposeWindow.toggleClass('fullscreen');
+
+        //check if any composer has fullscreen
+        if ($('.composer').hasClass('fullscreen') && !$('#search-overlay').hasClass('active')) {
+            $('#search-overlay').toggleClass('active');
+        }
+
+    }
+    //END PG-functions
 
     function parseAndTranslate(template, data, callback) {
         templates.parse(template, data, function(composerTemplate) {
@@ -604,6 +745,20 @@ define('composer', [
     function focusElements(postContainer) {
         var title = postContainer.find('input.title');
 
+        if ($('.composer.fullscreen')) {
+            postContainer.toggleClass('fullscreen');
+        }
+        if ($('.composer.minimized')) {
+            postContainer.toggleClass('minimized');
+            var env = utils.findBootstrapEnvironment();
+            if (env === 'md' || env === 'lg') {
+                $('body').css({
+                    'margin-bottom': postContainer.outerHeight()
+                });
+            }
+        }
+
+        //end PG-mod
         if (title.length) {
             title.focus();
         } else {
@@ -728,17 +883,22 @@ define('composer', [
             $('[data-action="post"]').removeAttr('disabled');
 
             $('html').removeClass('composing mobile');
+            if ($("#search-overlay").hasClass('active')) {
+                $("#search-overlay").toggleClass("active");
+            }
         }
     }
 
     composer.minimize = function(post_uuid) {
         var postContainer = $('#cmp-uuid-' + post_uuid);
         /* postContainer.css('visibility', 'hidden');*/
+
+
         composer.active = undefined;
         taskbar.minimize('composer', post_uuid);
 
         $('body').css({
-            /*'margin-bottom': '0px'*/
+            'margin-bottom': '0px'
         });
     };
 

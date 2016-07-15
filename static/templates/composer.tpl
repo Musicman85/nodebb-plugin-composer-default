@@ -3,12 +3,16 @@
         <button class="pg-composer-header-btn composer-discard" data-action="discard" tabindex="-1"><i class="material-icons md-18">clear</i>
         </button>
         <button class="pg-minimize pg-composer-header-btn"><i class="material-icons md-18">remove</i></button>
+        <button class="pg-fullscreen pg-composer-header-btn"><i class="enter material-icons md-18">fullscreen</i>
+       <i class="exit material-icons md-18">fullscreen_exit</i></button>
+
         <button class="pg-composer-header-btn resizer">
             <ul class="pg-rotate-ccw-45">
                 <li><i class="material-icons md-18 line-h-sm">arrow_drop_up</i></li>
                 <li><i class="material-icons md-18 line-h-sm">arrow_drop_down</i></li>
             </ul>
         </button>
+
         <!-- IF isTopicOrMain -->
         <div id="pg-category" class="pg-composer-desc">[[topic:composer.title_placeholder]]</div>
         <!-- ELSE -->
@@ -117,7 +121,7 @@
                 </ul>
                 <div class="btn-group pull-right action-bar hidden-sm hidden-xs">
                     <!--  <button class="btn btn-default composer-discard" data-action="discard" tabindex="-1"><i class="fa fa-times"></i> [[topic:composer.discard]]</button>-->
-                    <button class="btn btn-primary composer-submit" data-action="post" tabindex="6"><i class="fa fa-check"></i> [[topic:composer.submit]]</button>
+                    <button class="btn btn-primary composer-submit" data-action="post" tabindex="6"><i class="material-icons md-18">send</i>[[topic:composer.submit]]</button>
                 </div>
             </div>
         </div>

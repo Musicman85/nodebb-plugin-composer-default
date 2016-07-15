@@ -20,7 +20,7 @@ define('composer/resize', ['autosize'], function(autosize) {
 
 		if (percentage >= 1 - snapMargin) {
 			percentage = 1;
-			postContainer.addClass('maximized');
+			//postContainer.addClass('maximized');
 		}
 
 		doResize(postContainer, percentage);
@@ -45,6 +45,7 @@ define('composer/resize', ['autosize'], function(autosize) {
 
 			autosize(postContainer.find('textarea')[0]);
 			percentage = 1;
+
 		} else {
 			$html.removeClass('composing mobile');
 		}
@@ -60,19 +61,21 @@ define('composer/resize', ['autosize'], function(autosize) {
 				percentage = 1;
 			}
 
-			if (env === 'md' || env === 'lg') {
+			if (env === 'md' || env === 'lg' && postContainer.hasClass('pg-resizing')) {
 				var top = percentage * (windowHeight - upperBound) / windowHeight;
 				top = (Math.abs(1-top) * 100) + '%';
+
 				postContainer.css({
 					'top': top
 				});
+
 			} else {
 				postContainer.removeAttr('style');
 			}
 		}
 
 		postContainer.percentage = percentage;
-		postContainer.css('visibility', 'visible');
+		//postContainer.css('visibility', 'visible');
 
 		// Add some extra space at the bottom of the body so that the user can still scroll to the last post w/ composer open
 		// thanks but don't do it on mobile
@@ -93,13 +96,20 @@ define('composer/resize', ['autosize'], function(autosize) {
 		resizeIt = function(postContainer, percentage) {
 			raf(function() {
 				doResize(postContainer, percentage);
+
 			});
 		};
 	}
 
 	resize.handleResize = function(postContainer) {
+			$('res')
 
 		function resizeStart(e) {
+			//BEGIN pg-mod
+                if (!postContainer.hasClass('pg-resizing')) {
+                    postContainer.addClass('pg-resizing');
+                }
+                //END pg-mod
 			var resizeRect = resizeEl[0].getBoundingClientRect(),
 				resizeCenterY = resizeRect.top + (resizeRect.height / 2);
 
@@ -113,6 +123,12 @@ define('composer/resize', ['autosize'], function(autosize) {
 		}
 
 		function resizeStop(e) {
+			//BEGIN pg-mod
+                if (postContainer.hasClass('pg-resizing')) {
+                    postContainer.removeClass('pg-resizing');
+                }
+                //END pg-mod
+
 			resizeActive = false;
 
 			postContainer.find('textarea').focus();
@@ -162,6 +178,7 @@ define('composer/resize', ['autosize'], function(autosize) {
 
 		function resizeAction(e) {
 			if (resizeActive) {
+
 				var position = (e.clientY - resizeOffset),
 					windowHeight = $window.height(),
 					upperBound = getUpperBound(),
@@ -201,6 +218,7 @@ define('composer/resize', ['autosize'], function(autosize) {
 				e.preventDefault();
 				resizeStop();
 			});
+
 	};
 
 	function getUpperBound() {
