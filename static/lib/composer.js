@@ -459,6 +459,7 @@ define('composer', [
 
                 resize.handleResize(postContainer);
 
+
                 if (composer.bsEnvironment === 'xs' || composer.bsEnvironment === 'sm') {
                     var submitBtns = postContainer.find('.composer-submit'),
                         mobileSubmitBtn = postContainer.find('.mobile-navbar .composer-submit'),
@@ -529,7 +530,7 @@ define('composer', [
                                     actualComposeWindow.css({
                                         'width': widthOpen + 'px',
                                         'left': left,
-                                        'height': '100%',
+                                        'height': '70%',
                                         'top': 'auto',
                                     });
 
@@ -587,6 +588,7 @@ define('composer', [
                             }
 
                             actualComposeWindow.toggleClass('minimized');
+
                         });
 
                     }
@@ -670,12 +672,7 @@ define('composer', [
     }
 
     function fullScreenToggle(actualComposeWindow) {
-        //The window could not be minimized when fullscreen button is clicked
-        if (actualComposeWindow.hasClass('minimized') && !actualComposeWindow.hasClass('fullscreen')) {
-            //Entering full screen from minimized
-            actualComposeWindow.toggleClass('minimized');
 
-        }
 
         if (actualComposeWindow.hasClass('fullscreen')) {
             //Leaving full screen
@@ -694,20 +691,37 @@ define('composer', [
             }
 
             actualComposeWindow.css({
-                'height': '100%',
+                'height': '70%',
                 'width': '768px',
                 'left': left,
             });
 
         } else {
             //entering full screen
+            //The window could not be minimized when fullscreen button is clicked
+
+            if (actualComposeWindow.hasClass('minimized')) {
+                //Entering full screen from minimized
+                actualComposeWindow.toggleClass('minimized');
+
+            }
+
+
         }
+
 
 
         $("#search-overlay").toggleClass("active");
 
         actualComposeWindow.toggleClass('fullscreen');
 
+        if (actualComposeWindow.hasClass('fullscreen')) {
+
+            actualComposeWindow.find('.write-preview-container').css({
+               // 'height': actualComposeWindow.find('.composer-container').height()-40 + 'px',
+
+            });
+        }
         //check if any composer has fullscreen
         if ($('.composer').hasClass('fullscreen') && !$('#search-overlay').hasClass('active')) {
             $('#search-overlay').toggleClass('active');
@@ -745,17 +759,19 @@ define('composer', [
     function focusElements(postContainer) {
         var title = postContainer.find('input.title');
 
-        if ($('.composer.fullscreen')) {
+        if (postContainer.hasClass('fullscreen')) {
             postContainer.toggleClass('fullscreen');
         }
-        if ($('.composer.minimized')) {
+        if (postContainer.hasClass('minimized')) {
             postContainer.toggleClass('minimized');
-            var env = utils.findBootstrapEnvironment();
-            if (env === 'md' || env === 'lg') {
-                $('body').css({
-                    'margin-bottom': postContainer.outerHeight()
-                });
-            }
+
+        }
+        var env = utils.findBootstrapEnvironment();
+
+        if (env === 'md' || env === 'lg') {
+            $('body').css({
+                'margin-bottom': postContainer.outerHeight()
+            });
         }
 
         //end PG-mod

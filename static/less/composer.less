@@ -96,12 +96,13 @@ html.composing {
     .composer {
         padding: 0;
         .composer-container {
-            overflow-y: visible;
-            overflow-x: hidden;
+          /*  overflow-y: visible;
+            overflow-x: hidden;*/
+            overflow: hidden;
             padding: 0;
             padding-top: 50px;
             height: 50%;
-            background: white;
+          /*  background: white;*/
         }
         .title-container {
             margin-top: 0px;
@@ -116,7 +117,7 @@ html.composing {
         .write,
         .preview {
             border-bottom: 0;
-            min-height: 100%;
+           /* min-height: 100%;*/
             outline: none;
             padding: 25px 10px;
             margin-bottom: 0px;
@@ -232,13 +233,16 @@ html.composing {
         }
     }
     z-index: 10000;
-    /*padding-top: 20px;*/
+    /*padding-top: 20px;
     background: white;
-    /*visibility: hidden;*/
+    visibility: hidden;*/
     .composer-container {
         min-height: 50px;
         padding-left: 10px;
         padding-right: 10px;
+        height: calc(~"100% - 40px");
+        overflow: hidden;
+        background-color: #FFF;
     }
     @media(min-width: @screen-md) {
         .composer-container {
@@ -270,7 +274,7 @@ html.composing {
     }
     .tag-row {
         margin: 0px;
-        bottom: 40px;
+       /* bottom: 40px;*/
     }
     .tags-container {
         .bootstrap-tagsinput {
@@ -292,9 +296,12 @@ html.composing {
     .write-preview-container {
         height: 100%;
         margin: 0 0;
-        min-height: 200px;
+        /*min-height: 200px;*/
+        height: calc(~"100% - 40px");
+
+        min-height: 80px;
         > div {
-            height: 100%;
+           /* height: 100%;*/
         }
     }
     .write {
@@ -307,7 +314,7 @@ html.composing {
         display: block;
         width: 100%;
         height: 100%;
-        min-height: 250px;
+        min-height: 150px;
         margin: 0 auto;
         font-size: 14px;
         -webkit-border-radius: 5px;
@@ -321,6 +328,8 @@ html.composing {
         word-wrap: break-word;
     }
     .write-container {
+                    height: 100%;
+
         &.maximized {
             width: 100%;
         }
@@ -385,6 +394,7 @@ html.composing {
         }
     }
     .resizer {
+        float: left;
         /*   position: absolute;
         width: 100%;
         top: 10px;
@@ -509,10 +519,10 @@ html.composing {
 
 .composer {
     min-height: 40px;
+    height: 500px;
     width: 768px;
-    height: 100%;
-    top: auto ;
-    max-height: 540px;
+    height: 70%;
+    top: auto;
     border-top-left-radius: 7.5px;
     border-top-right-radius: 7.5px;
     overflow: hidden;
@@ -523,47 +533,22 @@ html.composing {
     transition: all 0.5s ease;
 }
 
-
-.pg-resizing {
+.composer.pg-resizing {
+    max-height: auto !important;  
     -webkit-transition: none;
     -moz-transition: none;
     -o-transition: none;
     transition: none;
-    max-height: auto;
+    bottom: 0 !important;
 }
-
-
 
 .composer-submit i {
     padding-right: 10px;
 }
 
-html.composer.mobile .composer.minimized {
-    height: 50px;
-}
-
-/*BEGIN minimized */
-.composer.minimized {
-    width: 300px;
-    height: 40px !important;
-    top: auto!important;
-    right: 0;
-    bottom: 0 !important;
-    left: auto;
-
-    
-
-}
-
-
-/*END minimized */
 .composer .pg-minimize i {
     position: relative;
     top: 5px;
-}
-
-.composer.minimized .pg-minimize i {
-    top: -5px;
 }
 
 .pg-rotate-ccw-45 {
@@ -582,33 +567,44 @@ html.composer.mobile .composer.minimized {
 }
 
 
-.composer.minimized .pg-composer-desc {
-    display: block;
-    overflow: hidden !important;
-    text-overflow: ellipsis;
-}
-
-.composer.minimized .composer-container {
-    display: none;
-}
-
-.composer.mimimized .resizer {
-    display: none!important;
-}
-
-.category-name-container {
-    display: none;
-}
-
-.pg-mobile-send {
-    display: none;
-}
-
 .composer-submit {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+.category-name-container {display: none;}
+
+/*BEGIN minimized */
+
+.composer.minimized {
+    width: 300px;
+    height: 40px !important;
+    top: auto!important;
+    right: 0;
+    bottom: 0 !important;
+    left: auto;
+    .composer-container {
+        display: none;
+    }
+    .pg-minimize i {
+        top: -5px;
+    }
+    .pg-composer-desc {
+        display: block;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+    }
+    .resizer {
+        display: none;
+    }
+    .category-name-container {
+        display: none;
+    }
+}
+
+
+/*END minimized */
 
 
 /*BEGIN Fullscreen*/
@@ -638,16 +634,19 @@ html.composer.mobile .composer.minimized {
     .pg-fullscreen i.enter {
         display: none;
     }
-    .resizer{
+    .resizer {
         display: none;
     }
 }
-
 
 /*END Fullscreen*/
 
 
 /* BEGIN mobile less */
+.pg-mobile-send {
+    display: none;
+}
+
 
 html.composing.mobile {
     .composer {
@@ -707,7 +706,7 @@ html.composing.mobile {
     }
     /*BEGIN PG mobile minimized less*/
     .composer.minimized {
-        height: 50px;
+        height: 50px !important;
         min-width: 120px;
         border-top-left-radius: 7.5px !important;
         border-top-right-radius: 7.5px !important;
