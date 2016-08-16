@@ -63,9 +63,9 @@ define('composer', [
 
             if ((env === 'md' || env === 'lg') && ajaxify.currentPage.indexOf('compose') === 0) {
                 /**
-                 *	If this conditional is met, we're no longer in mobile/tablet
-                 *	resolution but we've somehow managed to have a mobile
-                 *	composer load, so let's go back to the topic
+                 *  If this conditional is met, we're no longer in mobile/tablet
+                 *  resolution but we've somehow managed to have a mobile
+                 *  composer load, so let's go back to the topic
                  */
                 history.back();
             }
@@ -260,8 +260,8 @@ define('composer', [
 
     composer.enhance = function(postContainer, post_uuid, postData) {
         /*
-        	This method enhances a composer container with client-side sugar (preview, etc)
-        	Everything in here also applies to the /compose route
+            This method enhances a composer container with client-side sugar (preview, etc)
+            Everything in here also applies to the /compose route
         */
 
         if (!post_uuid && !postData) {
@@ -438,11 +438,11 @@ define('composer', [
 
                 composer.enhance(postContainer, post_uuid, postData);
                 /*
-                	Everything after this line is applied to the resizable composer only
-                	Want something done to both resizable composer and the one in /compose?
-                	Put it in composer.enhance().
+                    Everything after this line is applied to the resizable composer only
+                    Want something done to both resizable composer and the one in /compose?
+                    Put it in composer.enhance().
 
-                	Eventually, stuff after this line should be moved into composer.enhance().
+                    Eventually, stuff after this line should be moved into composer.enhance().
                 */
 
                 tags.init(postContainer, composer.posts[post_uuid]);
@@ -500,6 +500,16 @@ define('composer', [
                             var env = utils.findBootstrapEnvironment();
                             var extraScrollHeight = 540;
 
+
+                            // Set correct description text in header which is displayed when minimized
+                            var headerText = actualComposeWindow.find('.category-list-container option');
+                            headerText.each(function() {
+                                if ($(this)[0].selected) {
+                                    var test = $(this).text();
+                                    actualComposeWindow.find('#pg-category')[0].innerText = $(this).text();
+                                    console.log($(this));
+                                }
+                            });
 
                             //The window could have fullscreen if minimize/expand button is clicked
                             if (!actualComposeWindow.hasClass('minimized') && actualComposeWindow.hasClass('fullscreen')) {
@@ -718,7 +728,7 @@ define('composer', [
         if (actualComposeWindow.hasClass('fullscreen')) {
 
             actualComposeWindow.find('.write-preview-container').css({
-               // 'height': actualComposeWindow.find('.composer-container').height()-40 + 'px',
+                // 'height': actualComposeWindow.find('.composer-container').height()-40 + 'px',
 
             });
         }

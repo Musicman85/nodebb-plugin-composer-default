@@ -14,7 +14,10 @@
         </button>
 
         <!-- IF isTopicOrMain -->
-        <div id="pg-category" class="pg-composer-desc">[[topic:composer.title_placeholder]]</div>
+
+        <!--<div id="pg-category" class="pg-composer-desc">[[topic:composer.title_placeholder]]</div>-->
+                <div id="pg-category" class="pg-composer-desc"></div>
+
         <!-- ELSE -->
         <div class="pg-composer-desc">[[topic:composer.replying_to, "{title}"]]</div>
         <!-- ENDIF isTopicOrMain -->

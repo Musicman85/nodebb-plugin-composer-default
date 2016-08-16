@@ -61,8 +61,9 @@ define('composer/categoryList', function() {
 
             $('.category-name').text(listEl.find('option[value="' + postData.cid + '"]').text());
             $('.category-selector').find('li[data-cid="' + postData.cid + '"]').addClass('active');
+
             //BEGIN PG-mod
-            pgHeaderTitle($('.category-selector').find('li[data-cid="' + postData.cid + '"]').text());
+           // pgHeaderTitle($('.category-selector').find('li[data-cid="' + postData.cid + '"]').text());
             //END PG-mod
 
         });
@@ -75,7 +76,7 @@ define('composer/categoryList', function() {
             $('[tabindex=' + (parseInt($(this).attr('tabindex'), 10) + 1) + ']').trigger('focus');
             //BEGIN PG-mod
 
-            pgHeaderTitle($('.category-selector').find('li[data-cid="' + postData.cid + '"]').text())
+           // pgHeaderTitle($('.category-selector').find('li[data-cid="' + postData.cid + '"]').text())
                 //END PG-mod
 
         });
@@ -91,7 +92,7 @@ define('composer/categoryList', function() {
     };
     //PG-mod
     function pgHeaderTitle(title) {
-        $('#pg-category').text(title);
+      //  $('#pg-category').text(title);
     }
     //END PG-mod
 
