@@ -1,6 +1,6 @@
 {
-	"id": "nodebb-plugin-composer-default",
-	"url": "https://github.com/NodeBB/nodebb-plugin-composer-default",
+	"id": "nodebb-plugin-composer-proguitar",
+	"url": "https://github.com/Musicman85/nodebb-plugin-composer-proguitar.git",
 	"library": "library.js",
 	"hooks": [
 		{ "hook": "static:app.load", "method": "init" },
