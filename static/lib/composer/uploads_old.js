@@ -4,22 +4,17 @@
 
 define('composer/uploads', [
 	'composer/preview',
+	'csrf',
 	'translator'
-], function(preview, translator) {
+], function(preview, csrf, translator) {
 	var uploads = {
 		inProgress: {}
 	};
 
-	var cid;
-
 	var uploadingText = 'uploading 0%';
 
-	uploads.getCid = function() {
-		return cid;
-	};
+	uploads.initialize = function(post_uuid) {
 
-	uploads.initialize = function(post_uuid, _cid) {
-		cid = _cid;
 		initializeDragAndDrop(post_uuid);
 		initializePaste(post_uuid);
 
@@ -107,10 +102,9 @@ define('composer/uploads', [
 			if (draggingDocument) {
 				return;
 			}
-
-			drop.css('top', '0px');
-			drop.css('height', postContainer.height() + 'px');
-			drop.css('line-height', postContainer.height() + 'px');
+			drop.css('top', postContainer.find('.write-preview-container').position().top + 'px');
+			drop.css('height', textarea.height());
+			drop.css('line-height', textarea.height() + 'px');
 			drop.show();
 
 			drop.on('dragleave', function() {
@@ -155,8 +149,9 @@ define('composer/uploads', [
 
 		var draggingDocument = false;
 
-		var postContainer = $('#cmp-uuid-' + post_uuid);
-		var drop = postContainer.find('.imagedrop');
+		var postContainer = $('#cmp-uuid-' + post_uuid),
+			drop = postContainer.find('.imagedrop'),
+			textarea = postContainer.find('textarea');
 
 		$(document).off('dragstart').on('dragstart', function() {
 			draggingDocument = true;
@@ -164,7 +159,7 @@ define('composer/uploads', [
 			draggingDocument = false;
 		});
 
-		postContainer.on('dragenter', onDragEnter);
+		textarea.on('dragenter', onDragEnter);
 
 		drop.on('dragover', cancel);
 		drop.on('dragenter', cancel);
@@ -183,17 +178,16 @@ define('composer/uploads', [
 					return false;
 				}
 
-				var blobName = 'upload-' + utils.generateUUID();
+				blob.name = 'upload-' + utils.generateUUID();
 
 				var fd = null;
 				if (window.FormData) {
 					fd = new FormData();
-					fd.append('files[]', blob, blobName);
+					fd.append('files[]', blob, blob.name);
 				}
 
 				uploadContentFiles({
 					files: [blob],
-					fileNames: [blobName],
 					post_uuid: post_uuid,
 					route: '/api/post/upload',
 					formData: fd
@@ -224,21 +218,19 @@ define('composer/uploads', [
 	}
 
 	function uploadContentFiles(params) {
-		var files = params.files;
-		var post_uuid = params.post_uuid;
-		var postContainer = $('#cmp-uuid-' + post_uuid);
-		var textarea = postContainer.find('textarea');
-		var text = textarea.val();
-		var uploadForm = postContainer.find('#fileForm');
-		uploadForm.attr('action', config.relative_path + params.route);
+		var files = params.files,
+			post_uuid = params.post_uuid,
+			postContainer = $('#cmp-uuid-' + post_uuid),
+			textarea = postContainer.find('textarea'),
+			text = textarea.val(),
+			uploadForm = postContainer.find('#fileForm');
 
-		var categoryList = postContainer.find('.category-list');
-		cid = categoryList.length ? categoryList.val() : cid;
+		uploadForm.attr('action', config.relative_path + params.route);
 
 		var filenameMapping = [];
 
 		for (var i = 0; i < files.length; ++i) {
-			filenameMapping.push(i + '_' + Date.now() + '_' + (params.fileNames ? params.fileNames[i] : files[i].name));
+			filenameMapping.push(i + '_' + Date.now() + '_' + files[i].name);
 			var isImage = files[i].type.match(/image./);
 
 			if (files[i].size > parseInt(config.maximumFileSize, 10) * 1024) {
@@ -261,18 +253,13 @@ define('composer/uploads', [
 			uploads.inProgress[post_uuid] = uploads.inProgress[post_uuid] || [];
 			uploads.inProgress[post_uuid].push(1);
 
-			if (params.formData) {
-				params.formData.append('cid', cid);
-			}
-
 			$(this).ajaxSubmit({
 				headers: {
-					'x-csrf-token': config.csrf_token
+					'x-csrf-token': csrf.get()
 				},
 				resetForm: true,
 				clearForm: true,
 				formData: params.formData,
-				data: {cid: cid},
 
 				error: onUploadError,
 
@@ -287,7 +274,7 @@ define('composer/uploads', [
 				success: function(uploads) {
 					uploads = maybeParse(uploads);
 
-					if (uploads && uploads.length) {
+					if(uploads && uploads.length) {
 						for(var i=0; i<uploads.length; ++i) {
 							updateTextArea(filenameMapping[i], uploads[i].url);
 						}
@@ -324,7 +311,7 @@ define('composer/uploads', [
 
 			$(this).ajaxSubmit({
 				headers: {
-					'x-csrf-token': config.csrf_token
+					'x-csrf-token': csrf.get()
 				},
 				formData: params.formData,
 				error: onUploadError,
