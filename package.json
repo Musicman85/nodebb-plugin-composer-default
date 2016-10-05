@@ -9,6 +9,9 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
+  "peerDependencies":{
+    "nodebb-plugin-composer-default":"^4.2.7"
+  },
   "nbbpm": {
     "compatibility": "^1.0.0"
   }
