@@ -834,8 +834,8 @@ define('composer', [
                 handle: handleEl ? handleEl.val() : undefined,
                 title: titleEl.val(),
                 content: bodyEl.val(),
-                topic_thumb: thumbEl.val() || '',
-                category_id: categoryEl.val(),
+                thumb: thumbEl.val() || '',
+                cid: categoryEl.val(),
                 tags: tags.getTags(post_uuid),
                 lock: options.lock || false
             };
@@ -853,7 +853,7 @@ define('composer', [
                 handle: handleEl ? handleEl.val() : undefined,
                 content: bodyEl.val(),
                 title: titleEl.val(),
-                topic_thumb: thumbEl.val() || '',
+                thumb: thumbEl.val() || '',
                 tags: tags.getTags(post_uuid)
             };
         }
