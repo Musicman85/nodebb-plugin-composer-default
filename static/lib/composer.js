@@ -507,7 +507,6 @@ define('composer', [
                                 if ($(this)[0].selected) {
                                     var test = $(this).text();
                                     actualComposeWindow.find('#pg-category')[0].innerText = $(this).text();
-                                    console.log($(this));
                                 }
                             });
 
@@ -654,90 +653,7 @@ define('composer', [
     }
 
     //BEGIN PG-functions
-    function getComposerDimensions(composeCount, composerMargin, composerMinWidth, composerMaxWidth, i) {
-        var composerWidth = (window.innerWidth - composerMargin - composeCount * composerMargin) / composeCount;
-        var paddingWhenNotFit = 0;
-
-        if (composerWidth < composerMinWidth) {
-            composerWidth = composerMinWidth;
-        }
-        if (composerWidth > composerMaxWidth) {
-            composerWidth = composerMaxWidth;
-        }
-
-        var totalWidth = composerMargin + (composerWidth + composerMargin) * composeCount;
-
-        if (totalWidth > window.innerWidth) {
-            paddingWhenNotFit = (totalWidth - window.innerWidth) / (composeCount - 1);
-        }
-
-        var right = composerMargin + i * (composerWidth + composerMargin) - i * paddingWhenNotFit;
-
-
-
-        return {
-            'right': right,
-            'width': composerWidth
-        };
-    }
-
-    function fullScreenToggle(actualComposeWindow) {
-
-
-        if (actualComposeWindow.hasClass('fullscreen')) {
-            //Leaving full screen
-            var left = 'auto';
-            var minWidth = 350;
-            var widthOpen = 768;
-
-            var padding = 16;
-
-            var composeCount = $('.composer').length;
-
-            var calculatedRightPos = composeCount * (minWidth + padding);
-
-            if (calculatedRightPos + widthOpen > window.innerWidth) {
-                left = 0;
-            }
-
-            actualComposeWindow.css({
-                'height': '70%',
-                'width': '768px',
-                'left': left,
-            });
-
-        } else {
-            //entering full screen
-            //The window could not be minimized when fullscreen button is clicked
-
-            if (actualComposeWindow.hasClass('minimized')) {
-                //Entering full screen from minimized
-                actualComposeWindow.toggleClass('minimized');
-
-            }
-
-
-        }
-
-
-
-        $("#search-overlay").toggleClass("active");
-
-        actualComposeWindow.toggleClass('fullscreen');
-
-        if (actualComposeWindow.hasClass('fullscreen')) {
-
-            actualComposeWindow.find('.write-preview-container').css({
-                // 'height': actualComposeWindow.find('.composer-container').height()-40 + 'px',
-
-            });
-        }
-        //check if any composer has fullscreen
-        if ($('.composer').hasClass('fullscreen') && !$('#search-overlay').hasClass('active')) {
-            $('#search-overlay').toggleClass('active');
-        }
-
-    }
+    
     //END PG-functions
 
     function parseAndTranslate(template, data, callback) {
