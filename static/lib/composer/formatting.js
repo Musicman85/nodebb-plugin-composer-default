@@ -7,12 +7,12 @@ define('composer/formatting', ['composer/controls', 'composer/preview'], functio
 	var formatting = {};
 
 	var formattingDispatchTable = {
-		'picture': function(){
-			$('#files').click();
+		'picture': function(a,b,c,postContainer){
+			postContainer.find('#files').click();
 		},
 
-		upload: function(){
-			$('#files').click();
+		upload: function(a,b,c,postContainer){
+			postContainer.find('#files').click();
 		},
 
 		tags: function() {
@@ -49,7 +49,7 @@ define('composer/formatting', ['composer/controls', 'composer/preview'], functio
 				textarea = $(this).parents('[component="composer"]').find('textarea')[0];
 
 			if(formattingDispatchTable.hasOwnProperty(format)){
-				formattingDispatchTable[format](textarea, textarea.selectionStart, textarea.selectionEnd);
+				formattingDispatchTable[format](textarea, textarea.selectionStart, textarea.selectionEnd,postContainer);
 				preview.render(postContainer);
 			}
 		});
