@@ -304,7 +304,7 @@ define('composer/resize', ['autosize'], function(autosize) {
             //end mod
             postContainer.find('.title-container').outerHeight(true),
             postContainer.find('.formatting-bar').outerHeight(true),
-            postContainer.find('.topic-thumb-container').outerHeight(true),
+            postContainer.find('.topic-thumb-container').outerHeight(true) || 0,
             postContainer.find('.tag-row').outerHeight(true),
             $('.taskbar').height() || 50
         ].reduce(function(a, b) {
