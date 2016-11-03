@@ -42,7 +42,7 @@ plugin.addAdminNavigation = function(header, callback) {
 	header.plugins.push({
 		route: '/plugins/composer-default',
 		icon: 'fa-edit',
-		name: 'Composer (Default)'
+		name: 'Composer (Pro Guitar)'
 	});
 
 	callback(null, header);

@@ -120,13 +120,11 @@ define('composer/resize', ['autosize'], function(autosize) {
         resizeIt = function(postContainer, percentage, widthPercentage) {
             raf(function() {
                 doResize(postContainer, percentage, widthPercentage);
-
             });
         };
     }
 
     resize.handleResize = function(postContainer) {
-        $('res')
 
         function resizeStart(e) {
             resizeActive = true;
@@ -276,8 +274,13 @@ define('composer/resize', ['autosize'], function(autosize) {
     };
 
     function getUpperBound() {
-        return $headerMenu.height() + 1;
-    }
+		try {
+			var rect = $headerMenu.get(0).getBoundingClientRect();
+			return rect.height + rect.top;
+		} catch (e) {
+			return 0;
+		}
+	}
 
     function resizeWritePreview(postContainer) {
         var total = getFormattingHeight(postContainer),
@@ -301,7 +304,7 @@ define('composer/resize', ['autosize'], function(autosize) {
             //end mod
             postContainer.find('.title-container').outerHeight(true),
             postContainer.find('.formatting-bar').outerHeight(true),
-            postContainer.find('.topic-thumb-container').outerHeight(true),
+            postContainer.find('.topic-thumb-container').outerHeight(true) || 0,
             postContainer.find('.tag-row').outerHeight(true),
             $('.taskbar').height() || 50
         ].reduce(function(a, b) {

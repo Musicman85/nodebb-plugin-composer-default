@@ -14,7 +14,7 @@ define('composer', [
     'composer/preview',
     'composer/resize',
     'composer/autocomplete'
-], function(taskbar, translator, controls, uploads, formatting, drafts, tags, categoryList, preview, resize, autocomplete) {
+], function (taskbar, translator, controls, uploads, formatting, drafts, tags, categoryList, preview, resize, autocomplete) {
     var composer = {
         active: undefined,
         posts: {},
@@ -24,12 +24,12 @@ define('composer', [
 
     $(window).off('resize', onWindowResize).on('resize', onWindowResize);
 
-    $(window).on('action:composer.topics.post', function(ev, data) {
+    $(window).on('action:composer.topics.post', function (ev, data) {
         localStorage.removeItem('category:' + data.data.cid + ':bookmark');
         localStorage.removeItem('category:' + data.data.cid + ':bookmark:clicked');
     });
 
-    $(window).on('popstate', function() {
+    $(window).on('popstate', function () {
         var env = utils.findBootstrapEnvironment();
 
         if (composer.active && (env === 'xs' || env === 'sm')) {
@@ -38,8 +38,8 @@ define('composer', [
                 return;
             }
 
-            translator.translate('[[modules:composer.discard]]', function(translated) {
-                bootbox.confirm(translated, function(confirm) {
+            translator.translate('[[modules:composer.discard]]', function (translated) {
+                bootbox.confirm(translated, function (confirm) {
                     if (confirm) {
                         discard(composer.active);
                     }
@@ -107,7 +107,7 @@ define('composer', [
             return composer.load(existingUUID);
         }
 
-        translator.translate('[[topic:composer.new_topic]]', function(newTopicStr) {
+        translator.translate('[[topic:composer.new_topic]]', function (newTopicStr) {
             taskbar.push('composer', uuid, {
                 title: post.title ? post.title : newTopicStr
             });
@@ -139,7 +139,7 @@ define('composer', [
         });
     }
 
-    composer.findByTid = function(tid) {
+    composer.findByTid = function (tid) {
         // Iterates through the initialised composers and returns the uuid of the matching composer
         for (var uuid in composer.posts) {
             if (composer.posts.hasOwnProperty(uuid) && composer.posts[uuid].hasOwnProperty('tid') && parseInt(composer.posts[uuid].tid, 10) === parseInt(tid, 10)) {
@@ -150,11 +150,11 @@ define('composer', [
         return null;
     };
 
-    composer.addButton = function(iconClass, onClick, title) {
+    composer.addButton = function (iconClass, onClick, title) {
         formatting.addButton(iconClass, onClick, title);
     };
 
-    composer.newTopic = function(data) {
+    composer.newTopic = function (data) {
         push({
             action: 'topics.post',
             cid: data.cid,
@@ -165,7 +165,7 @@ define('composer', [
         });
     };
 
-    composer.addQuote = function(tid, topicSlug, postIndex, pid, title, username, text, uuid) {
+    composer.addQuote = function (tid, topicSlug, postIndex, pid, title, username, text, uuid) {
         uuid = uuid || composer.active;
 
         var escapedTitle = (title || '').replace(/([\\`*_{}\[\]()#+\-.!])/g, '\\$1').replace(/\[/g, '&#91;').replace(/\]/g, '&#93;').replace(/%/g, '&#37;').replace(/,/g, '&#44;');
@@ -205,8 +205,8 @@ define('composer', [
         }
     };
 
-    composer.newReply = function(tid, pid, title, text) {
-        translator.translate(text, config.defaultLang, function(translated) {
+    composer.newReply = function (tid, pid, title, text) {
+        translator.translate(text, config.defaultLang, function (translated) {
             push({
                 action: 'posts.reply',
                 tid: tid,
@@ -219,8 +219,8 @@ define('composer', [
         });
     };
 
-    composer.editPost = function(pid) {
-        socket.emit('plugins.composer.push', pid, function(err, threadData) {
+    composer.editPost = function (pid) {
+        socket.emit('plugins.composer.push', pid, function (err, threadData) {
             if (err) {
                 return app.alertError(err.message);
             }
@@ -240,7 +240,7 @@ define('composer', [
         });
     };
 
-    composer.load = function(post_uuid) {
+    composer.load = function (post_uuid) {
         var postContainer = $('#cmp-uuid-' + post_uuid);
         if (postContainer.length) {
             activate(post_uuid);
@@ -250,7 +250,7 @@ define('composer', [
             if (composer.formatting) {
                 createNewComposer(post_uuid);
             } else {
-                socket.emit('plugins.composer.getFormattingOptions', function(err, options) {
+                socket.emit('plugins.composer.getFormattingOptions', function (err, options) {
                     composer.formatting = options;
                     createNewComposer(post_uuid);
                 });
@@ -258,7 +258,7 @@ define('composer', [
         }
     };
 
-    composer.enhance = function(postContainer, post_uuid, postData) {
+    composer.enhance = function (postContainer, post_uuid, postData) {
         /*
             This method enhances a composer container with client-side sugar (preview, etc)
             Everything in here also applies to the /compose route
@@ -298,11 +298,11 @@ define('composer', [
 
         autocomplete.init(postContainer);
 
-        postContainer.on('change', 'input, textarea', function() {
+        postContainer.on('change', 'input, textarea', function () {
             composer.posts[post_uuid].modified = true;
         });
 
-        submitBtn.on('click', function() {
+        submitBtn.on('click', function () {
             var action = $(this).attr('data-action');
 
             switch (action) {
@@ -321,14 +321,14 @@ define('composer', [
             }
         });
 
-        postContainer.on('click', 'a[data-switch-action]', function() {
+        postContainer.on('click', 'a[data-switch-action]', function () {
             var action = $(this).attr('data-switch-action'),
                 label = $(this).html();
 
             submitBtn.attr('data-action', action).html(label);
         });
 
-        postContainer.find('.composer-discard').on('click', function(e) {
+        postContainer.find('.composer-discard').on('click', function (e) {
             e.preventDefault();
 
             if (!composer.posts[post_uuid].modified) {
@@ -337,8 +337,8 @@ define('composer', [
                 return;
             }
             var btn = $(this).prop('disabled', true);
-            translator.translate('[[modules:composer.discard]]', function(translated) {
-                bootbox.confirm(translated, function(confirm) {
+            translator.translate('[[modules:composer.discard]]', function (translated) {
+                bootbox.confirm(translated, function (confirm) {
                     if (confirm) {
                         removeComposerHistory();
                         discard(post_uuid);
@@ -348,15 +348,15 @@ define('composer', [
             });
         });
 
-        bodyEl.on('input propertychange', function() {
+        bodyEl.on('input propertychange', function () {
             preview.render(postContainer);
         });
 
-        bodyEl.on('scroll', function() {
+        bodyEl.on('scroll', function () {
             preview.matchScroll(postContainer);
         });
 
-        preview.render(postContainer, function() {
+        preview.render(postContainer, function () {
             preview.matchScroll(postContainer);
         });
 
@@ -424,7 +424,7 @@ define('composer', [
         }
 
         function renderComposer() {
-            parseAndTranslate('composer', data, function(composerTemplate) {
+            parseAndTranslate('composer', data, function (composerTemplate) {
                 if ($('#cmp-uuid-' + post_uuid).length) {
                     return;
                 }
@@ -449,7 +449,7 @@ define('composer', [
 
                 activate(post_uuid);
 
-                postContainer.on('click', function() {
+                postContainer.on('click', function () {
 
 
                     if (!taskbar.isActive(post_uuid)) {
@@ -469,7 +469,7 @@ define('composer', [
                     submitBtns.removeAttr('tabindex');
                     mobileSubmitBtn.attr('tabindex', parseInt(idx, 10) + 1);
 
-                    $('.category-name-container').on('click', function() {
+                    $('.category-name-container').on('click', function () {
                         $('.category-selector').toggleClass('open');
 
                     });
@@ -489,12 +489,12 @@ define('composer', [
 
 
 
-                $('.pg-minimize').each(function() {
+                $('.pg-minimize').each(function () {
 
                     if (!$(this).attr("data-uuid")) {
                         $(this).attr("data-uuid", post_uuid);
 
-                        $(this).on('click', function() {
+                        $(this).on('click', function () {
 
                             var actualComposeWindow = $('#cmp-uuid-' + $(this).attr('data-uuid'));
                             var env = utils.findBootstrapEnvironment();
@@ -503,11 +503,9 @@ define('composer', [
 
                             // Set correct description text in header which is displayed when minimized
                             var headerText = actualComposeWindow.find('.category-list-container option');
-                            headerText.each(function() {
+                            headerText.each(function () {
                                 if ($(this)[0].selected) {
-                                    var test = $(this).text();
                                     actualComposeWindow.find('#pg-category')[0].innerText = $(this).text();
-                                    console.log($(this));
                                 }
                             });
 
@@ -564,7 +562,6 @@ define('composer', [
                                     'margin-bottom': 0
                                 });
                                 var composeCount = $('.composer').length;
-                                var env = utils.findBootstrapEnvironment();
 
                                 var composerMargin = 16;
                                 var composerMinWidth = 300;
@@ -580,7 +577,7 @@ define('composer', [
 
                                 var i = 0;
 
-                                $('.composer').each(function() {
+                                $('.composer').each(function () {
                                     //Place all composer windows properly
                                     var composerDimensions = getComposerDimensions(composeCount, composerMargin, composerMinWidth, composerMaxWidth, i);
 
@@ -605,13 +602,13 @@ define('composer', [
                 });
 
 
-                $('.pg-fullscreen').each(function() {
+                $('.pg-fullscreen').each(function () {
 
                     //uggly way to make a check that only one click listnener is set
                     if (!$(this).attr("fullscreen-tag")) {
                         $(this).attr("fullscreen-tag", 'yes');
 
-                        $(this).on('click', function() {
+                        $(this).on('click', function () {
                             var actualComposeWindow = $(this).parent().parent();
                             fullScreenToggle(actualComposeWindow);
                         });
@@ -620,13 +617,13 @@ define('composer', [
                 });
 
                 //change depth of composer elements when clinking
-                $('.composer').click(function() {
+                $('.composer').click(function () {
 
                     var zDiff = 0;
                     var clickedElement = $(this);
                     var changeZdirection = false;
 
-                    $('.composer').each(function() {
+                    $('.composer').each(function () {
 
                         if ($(this) === clickedElement) {
                             changeZdirection = true;
@@ -672,18 +669,13 @@ define('composer', [
         }
 
         var right = composerMargin + i * (composerWidth + composerMargin) - i * paddingWhenNotFit;
-
-
-
         return {
-            'right': right,
-            'width': composerWidth
+            right: right,
+            width: composerWidth
         };
     }
 
     function fullScreenToggle(actualComposeWindow) {
-
-
         if (actualComposeWindow.hasClass('fullscreen')) {
             //Leaving full screen
             var left = 'auto';
@@ -718,11 +710,7 @@ define('composer', [
 
 
         }
-
-
-
         $("#search-overlay").toggleClass("active");
-
         actualComposeWindow.toggleClass('fullscreen');
 
         if (actualComposeWindow.hasClass('fullscreen')) {
@@ -741,17 +729,17 @@ define('composer', [
     //END PG-functions
 
     function parseAndTranslate(template, data, callback) {
-        templates.parse(template, data, function(composerTemplate) {
+        templates.parse(template, data, function (composerTemplate) {
             translator.translate(composerTemplate, callback);
         });
     }
 
     function handleHelp(postContainer) {
         var helpBtn = postContainer.find('.help');
-        socket.emit('plugins.composer.renderHelp', function(err, html) {
+        socket.emit('plugins.composer.renderHelp', function (err, html) {
             if (!err && html && html.length > 0) {
                 helpBtn.removeClass('hidden');
-                helpBtn.on('click', function() {
+                helpBtn.on('click', function () {
                     bootbox.alert(html);
                 });
             }
@@ -834,8 +822,8 @@ define('composer', [
                 handle: handleEl ? handleEl.val() : undefined,
                 title: titleEl.val(),
                 content: bodyEl.val(),
-                topic_thumb: thumbEl.val() || '',
-                category_id: categoryEl.val(),
+                thumb: thumbEl.val() || '',
+                cid: categoryEl.val(),
                 tags: tags.getTags(post_uuid),
                 lock: options.lock || false
             };
@@ -853,12 +841,12 @@ define('composer', [
                 handle: handleEl ? handleEl.val() : undefined,
                 content: bodyEl.val(),
                 title: titleEl.val(),
-                topic_thumb: thumbEl.val() || '',
+                thumb: thumbEl.val() || '',
                 tags: tags.getTags(post_uuid)
             };
         }
 
-        socket.emit(action, composerData, function(err, data) {
+        socket.emit(action, composerData, function (err, data) {
             postContainer.find('.composer-submit').removeAttr('disabled');
             if (err) {
                 if (err.message === '[[error:email-not-confirmed]]') {
@@ -915,11 +903,7 @@ define('composer', [
         }
     }
 
-    composer.minimize = function(post_uuid) {
-        var postContainer = $('#cmp-uuid-' + post_uuid);
-        /* postContainer.css('visibility', 'hidden');*/
-
-
+    composer.minimize = function (post_uuid) {
         composer.active = undefined;
         taskbar.minimize('composer', post_uuid);
 
