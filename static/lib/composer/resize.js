@@ -6,12 +6,12 @@ define('composer/resize', ['autosize'], function(autosize) {
     var resize = {},
         oldPercentage = 0,
         minimumPercentage = 0.3,
-        snapMargin = $('[component="navbar"]').height() / $(window).height();
+        snapMargin = $('#main-nav').height() / $(window).height();
 
     var $body = $('body'),
         $html = $('html'),
         $window = $(window),
-        $headerMenu = $('[component="navbar"]');
+        $headerMenu = $('#main-nav');
 
 
     resize.reposition = function(postContainer) {
