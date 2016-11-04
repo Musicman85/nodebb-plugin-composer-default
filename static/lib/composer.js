@@ -542,7 +542,6 @@ define('composer', [
                                     actualComposeWindow.css({
                                         'width': widthOpen + 'px',
                                         'left': left,
-                                      //  'height': '70%',
                                         'top': 'auto'
                                     });
                                 } else {
