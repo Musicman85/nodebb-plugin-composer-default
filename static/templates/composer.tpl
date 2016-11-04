@@ -1,4 +1,4 @@
-<div component="composer" class="composer<!-- IF resizable --> resizable<!-- ENDIF resizable -->">
+<div component="composer" class="composer<!-- IF resizable --> resizable<!-- ENDIF resizable --> open">
     <div class="pg-composer-header">
         <button class="pg-composer-header-btn composer-discard" data-action="discard" tabindex="-1"><i class="material-icons md-18">clear</i>
         </button>

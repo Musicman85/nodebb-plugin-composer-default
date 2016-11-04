@@ -1,4 +1,4 @@
-<div component="composer" class="composer<!-- IF resizable --> resizable<!-- ENDIF resizable -->"<!-- IF !disabled --> style="visibility: inherit;"<!-- ENDIF !disabled -->>
+<div component="composer" class="composer<!-- IF resizable --> resizable<!-- ENDIF resizable --> open"<!-- IF !disabled --> style="visibility: inherit;"<!-- ENDIF !disabled -->>
 
 	<div class="pg-composer-header"><i class="material-icons md-18">clear</i><i class="material-icons md-18">remove</i>
 </div>

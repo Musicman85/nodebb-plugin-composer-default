@@ -1,10 +1,11 @@
 .define-if-not-set() {
-    @btn-primary-bg: darken(#428bca, 6.5%);
+    @btn-primary-bg:#f5ca35;
     @btn-primary-color: #fff;
     @gray-light: lighten(#000, 46.7%);
 }
 
 .define-if-not-set();
+
 @topbarHeight: 50px;
 html.composing {
     padding: auto;
@@ -83,7 +84,7 @@ html.composing {
                     padding: 10px;
                     color: #333;
                     &.active {
-                        background-color: @btn-primary-bg;
+                        background-color: @pg-forum-color;
                         color: @btn-primary-color;
                     }
                 }
@@ -241,6 +242,7 @@ html.composing {
         padding-left: 10px;
         padding-right: 10px;
         height: calc(~"100% - 40px");
+        //height:100%;
         overflow: hidden;
         background-color: #FFF;
     }
@@ -274,6 +276,7 @@ html.composing {
     }
     .tag-row {
         margin: 0px;
+        display:inline-block;
        /* bottom: 40px;*/
     }
     .tags-container {
@@ -294,8 +297,9 @@ html.composing {
         }
     }
     .write-preview-container {
-        height: 100%;
+        height: auto;
         margin: 0 0;
+        display: flex;
         /*min-height: 200px;*/
         height: calc(~"100% - 40px");
 
@@ -314,7 +318,7 @@ html.composing {
         display: block;
         width: 100%;
         height: 100%;
-        min-height: 150px;
+        //min-height: 150px;
         margin: 0 auto;
         font-size: 14px;
         -webkit-border-radius: 5px;
@@ -322,6 +326,7 @@ html.composing {
         border-radius: 5px;
         resize: none;
         overflow: auto;
+        overflow-y:scroll !important;
         padding: 20px 20px 0px;
     }
     .preview-container {
@@ -684,8 +689,10 @@ html.composing.mobile {
         border-top-left-radius: 7.5px !important;
         border-top-right-radius: 7.5px !important;
         .category-name-container {
+            display:none;
             float: none;
         }
+        #pg-category{display: block;}
         .composer-container {
             display: none;
         }

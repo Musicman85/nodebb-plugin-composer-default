@@ -59,11 +59,16 @@ define('composer/categoryList', function() {
                 postData.cid = listEl.val();
             }
 
-            $('.category-name').text(listEl.find('option[value="' + postData.cid + '"]').text());
-            $('.category-selector').find('li[data-cid="' + postData.cid + '"]').addClass('active');
 
-            //BEGIN PG-mod
-           // pgHeaderTitle($('.category-selector').find('li[data-cid="' + postData.cid + '"]').text());
+
+            /*BEGIN PG-mod
+                The category name was not only changing actual composing window, added specific postcontainer
+            */
+            //$('.category-name').text(listEl.find('option[value="' + postData.cid + '"]').text());
+            //$('.category-selector').find('li[data-cid="' + postData.cid + '"]').addClass('active');
+
+             postContainer.find('.category-name').text(listEl.find('option[value="' + postData.cid + '"]').text());
+              postContainer.find('.category-selector').find('li[data-cid="' + postData.cid + '"]').addClass('active');
             //END PG-mod
 
         });
@@ -73,22 +78,21 @@ define('composer/categoryList', function() {
                 postData.cid = this.value;
             }
 
-            $('[tabindex=' + (parseInt($(this).attr('tabindex'), 10) + 1) + ']').trigger('focus');
-            //BEGIN PG-mod
+            $(this).find('[tabindex=' + (parseInt($(this).attr('tabindex'), 10) + 1) + ']').trigger('focus');
 
            // pgHeaderTitle($('.category-selector').find('li[data-cid="' + postData.cid + '"]').text())
-                //END PG-mod
+        
 
         });
 
-        $('.category-selector').on('click', 'li', function() {
-            $('.category-name').text($(this).text());
-            $('.category-selector').removeClass('open');
-            $('.category-selector li').removeClass('active');
+        postContainer.find('.category-selector').on('click', 'li', function() {
+            postContainer.find('.category-name').text($(this).text());
+            postContainer.find('.category-selector').removeClass('open');
+            postContainer.find('.category-selector li').removeClass('active');
             $(this).addClass('active');
-            $('.category-list').val($(this).attr('data-cid'));
+            postContainer.find('.category-list').val($(this).attr('data-cid'));
         });
-
+        //END PG-mod
     };
     //PG-mod
     function pgHeaderTitle(title) {

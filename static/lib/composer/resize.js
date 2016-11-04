@@ -2,7 +2,7 @@
 
 /* globals app, define, config, utils*/
 
-define('composer/resize', ['autosize'], function(autosize) {
+define('composer/resize', [], function(autosize) {
     var resize = {},
         oldPercentage = 0,
         minimumPercentage = 0.3,
@@ -44,7 +44,7 @@ define('composer/resize', ['autosize'], function(autosize) {
             		'left': 0
             	});*/
 
-            autosize(postContainer.find('textarea')[0]);
+            //autosize(postContainer.find('textarea')[0]);
             percentage = 1;
 
             widthPercentage=1;
@@ -191,10 +191,10 @@ define('composer/resize', ['autosize'], function(autosize) {
 
             resizeSavePosition(ratio, ratioWidth);
 
-            toggleMaximize(e);
+            //toggleMaximize(e);
         }
 
-        function toggleMaximize(e) {
+       /* function toggleMaximize(e) {
             if (e.clientY - resizeDown === 0 || snapToTop) {
                 var newPercentage = 1;
 
@@ -210,11 +210,12 @@ define('composer/resize', ['autosize'], function(autosize) {
 
                 resizeSavePosition(newPercentage);
             }
-        }
+        }*/
 
         function resizeTouchAction(e) {
             e.preventDefault();
-            resizeAction(e.touches[0]);
+           // resizeAction(e.touches[0]);
+           resizeAction(e.touches[0]);
         }
 
         function resizeAction(e) {
@@ -241,7 +242,10 @@ define('composer/resize', ['autosize'], function(autosize) {
                 }
             }
 
-            e.preventDefault();
+            if(typeof e.preventDefault ==='function'){
+                e.preventDefault();
+            }
+            
             return false;
         }
 
@@ -268,7 +272,7 @@ define('composer/resize', ['autosize'], function(autosize) {
             })
             .on('touchend', function(e) {
                 e.preventDefault();
-                resizeStop();
+                resizeStop(e);
             });
 
     };
@@ -286,7 +290,7 @@ define('composer/resize', ['autosize'], function(autosize) {
         var total = getFormattingHeight(postContainer),
             containerHeight = postContainer.height() + 20 - total;
 
-        postContainer
+       postContainer
             .find('.write-preview-container')
             .css('height', containerHeight);
 

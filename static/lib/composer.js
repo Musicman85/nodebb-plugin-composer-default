@@ -469,8 +469,9 @@ define('composer', [
                     submitBtns.removeAttr('tabindex');
                     mobileSubmitBtn.attr('tabindex', parseInt(idx, 10) + 1);
 
-                    $('.category-name-container').on('click', function () {
-                        $('.category-selector').toggleClass('open');
+                    //added postcontainer because the click event was not on all containers
+                   postContainer.find('.category-name-container').on('click', function () {
+                        postContainer.find('.category-selector').toggleClass('open');
 
                     });
 
@@ -521,6 +522,9 @@ define('composer', [
                             if (actualComposeWindow.hasClass('minimized')) {
 
                                 //the composer is closed when clicked
+
+                                actualComposeWindow.addClass('open');
+
                                 if (env === 'md' || env === 'lg') {
                                     //When desktop, set extra scroll to be able to scroll the complete page when composing
                                     $('body').css({
@@ -538,10 +542,9 @@ define('composer', [
                                     actualComposeWindow.css({
                                         'width': widthOpen + 'px',
                                         'left': left,
-                                        'height': '70%',
-                                        'top': 'auto',
+                                      //  'height': '70%',
+                                        'top': 'auto'
                                     });
-
                                 } else {
                                     //mobile
                                     actualComposeWindow.css({
@@ -552,12 +555,15 @@ define('composer', [
                                         'top': 'auto'
                                     });
                                 }
+                                actualComposeWindow.removeClass('minimized');
 
 
                             } else {
                                 // the composer is open when clicked
                                 //Reset the body scroll margin'
-
+                                if (actualComposeWindow.hasClass('open')) {
+                                    actualComposeWindow.removeClass('open');
+                                }
                                 $('body').css({
                                     'margin-bottom': 0
                                 });
@@ -578,23 +584,38 @@ define('composer', [
                                 var i = 0;
 
                                 $('.composer').each(function () {
+
                                     //Place all composer windows properly
                                     var composerDimensions = getComposerDimensions(composeCount, composerMargin, composerMinWidth, composerMaxWidth, i);
 
-                                    $(this).css({
-                                        'width': composerDimensions.width + 'px',
-                                        'right': composerDimensions.right + 'px',
-                                        'left': 'auto',
-                                        'height': minimizedHeight,
-                                        'top': 'auto'
-                                    });
+                                    if (env === 'md' || env === 'lg') {
+
+                                        if (!$(this).hasClass('open') && !$(this).hasClass('minimized')) {
+
+                                            $(this).css({
+                                                'width': composerDimensions.width + 'px',
+                                                'right': composerDimensions.right + 'px',
+                                                'left': 'auto'
+                                            });
+                                        }
+                  
+                                    } else {
+                                        //On mobile all on mobile
+                                        $(this).css({
+                                            'width': composerDimensions.width + 'px',
+                                            'right': composerDimensions.right + 'px',
+                                            'left': 'auto',
+                                            'height': minimizedHeight,
+                                            'top': 'auto'
+                                        });
+                                    }
 
                                     i++;
+
                                 });
+                                actualComposeWindow.addClass('minimized');
 
                             }
-
-                            actualComposeWindow.toggleClass('minimized');
 
                         });
 
@@ -895,8 +916,12 @@ define('composer', [
                 'margin-bottom': 0
             });
             $('[data-action="post"]').removeAttr('disabled');
+            
+            //added check to only remove the composing mobile class if there are no composing windows active
+            if(!$('.composer')){
+                $('html').removeClass('composing mobile');
+            }
 
-            $('html').removeClass('composing mobile');
             if ($("#search-overlay").hasClass('active')) {
                 $("#search-overlay").toggleClass("active");
             }
