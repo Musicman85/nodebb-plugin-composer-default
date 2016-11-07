@@ -2,7 +2,6 @@
     @btn-primary-bg:#f5ca35;
     @btn-primary-color: #fff;
     @gray-light: lighten(#000, 46.7%);
-    @pg-forum-color:#f5ca35;
 }
 
 .define-if-not-set();
@@ -85,8 +84,7 @@ html.composing {
                     padding: 10px;
                     color: #333;
                     &.active {
-                        background-color: @pg-forum-color;
-                        color: @btn-primary-color;
+                        
                     }
                 }
             }
@@ -134,8 +132,6 @@ html.composing {
             padding: 0;
         }
         .mobile-navbar {
-            background: @btn-primary-bg;
-            color: @btn-primary-color;
             position: absolute;
             margin-bottom: 0px;
             min-height: 50px;
