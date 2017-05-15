@@ -289,7 +289,7 @@ define('composer', [
         }
 
         if (config.allowFileUploads || config.hasImageUploadPlugin || config.allowTopicsThumbnail) {
-            uploads.initialize(post_uuid);
+            uploads.initialize(post_uuid, ajaxify.data.cid);
         }
 
         if (config.allowTopicsThumbnail && postData.isMain) {
